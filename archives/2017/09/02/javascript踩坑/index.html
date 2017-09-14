@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017 | xiaotong</title>
+  <title>踩过的javascript坑 | xiaotong</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="xiaotong">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+  <meta name="description" content="此文用以记录javascript中遇到的问题，并对相关知识点做一点总结。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="踩过的javascript坑">
+<meta property="og:url" content="http://yoursite.com/archives/2017/09/02/javascript踩坑/index.html">
 <meta property="og:site_name" content="xiaotong">
+<meta property="og:description" content="此文用以记录javascript中遇到的问题，并对相关知识点做一点总结。">
+<meta property="og:updated_time" content="2017-09-14T13:39:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xiaotong">
+<meta name="twitter:title" content="踩过的javascript坑">
+<meta name="twitter:description" content="此文用以记录javascript中遇到的问题，并对相关知识点做一点总结。">
   
     <link rel="alternative" href="/atom.xml" title="xiaotong" type="application/atom+xml">
   
@@ -123,49 +127,96 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-javascript踩坑" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/2017/09/02/javascript踩坑/index.html" class="archive-article-date">
-  	<time datetime="2017-09-02T10:02:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-02</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/2017/09/02/javascript踩坑/index.html">踩过的javascript坑</a>
+    <h1 class="article-title" itemprop="name">
+      踩过的javascript坑
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/archives/2017/09/02/javascript踩坑/index.html" class="archive-article-date">
+  	<time datetime="2017-09-02T10:02:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>此文用以记录javascript中遇到的问题，并对相关知识点做一点总结。<br><a id="more"></a></p>
+<h2 id="setTimeout-和-setInterval"><a href="#setTimeout-和-setInterval" class="headerlink" title="setTimeout 和 setInterval"></a>setTimeout 和 setInterval</h2><p>先看一下这两个函数本身的定义</p>
+<blockquote>
+<p>setTimeout()方法设置一个定时器，该定时器在定时器到期后执行一个函数或制定的一段代码<br>setInterval() 方法重复调用一个函数或执行一个代码段，在每次调用之间具有固定的时间延迟</p>
+</blockquote>
+<p>然而函数调用并不一定会准时触发，实际延迟时间可能比设定的延长时间长，甚至不会触发。<br>实例一<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">for(var i = 0;i&lt;10000;i++)&#123;</div><div class="line">    console.log(i)</div><div class="line">&#125;;</div><div class="line">setTimeout( function()&#123;console.log(&quot;你好&quot;)&#125; , 10);//for循环全部输出完毕以后定时器才会输出，远远超过设置的延迟时间</div></pre></td></tr></table></figure></p>
+<p>实例二<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">setTimeout( function()&#123; while(true)&#123;&#125; &#125; , 100); </div><div class="line">setTimeout( function()&#123; console.log(&apos;你好!&apos;); &#125; , 200);//第二个定时器的内容不会输出</div></pre></td></tr></table></figure></p>
+<p>实例三<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">setTimeout( function()&#123; console.log(&quot;hello&quot;)&#125; , 0);//即时设置延迟时间是0，但还是在for循环以后输出</div><div class="line">for(var i = 1;i&lt;10;i++)&#123;</div><div class="line">    console.log(i);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>实例四<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">for(var i = 0;i&lt;1000;i++)&#123;</div><div class="line">    console.log(i);</div><div class="line">&#125;</div><div class="line">setTimeout( example() , 1000);//for循环内容输出结束后，马上输出定时器内容</div><div class="line">function example()&#123;</div><div class="line">    console.log(&quot;hello&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>实例五<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">console.log(&apos;script start&apos;);</div><div class="line"></div><div class="line">setTimeout( function() &#123;</div><div class="line">  console.log(&apos;setTimeout&apos;);</div><div class="line">&#125; , 0);</div><div class="line"></div><div class="line">Promise.resolve().then(function() &#123;</div><div class="line">  console.log(&apos;promise1&apos;);</div><div class="line">&#125;).then(function() &#123;</div><div class="line">  console.log(&apos;promise2&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">console.log(&apos;script end&apos;);</div><div class="line"></div><div class="line">//输出结果：</div><div class="line">start</div><div class="line">script end</div><div class="line">promise1</div><div class="line">promise2</div><div class="line">setTimeout</div></pre></td></tr></table></figure></p>
+<p>实例6–经典面试题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">for (var i = 0; i &lt; 5; i++) &#123;</div><div class="line">  setTimeout( function() &#123; console.log(i); &#125; , i * 1000 );//全部输出5，用闭包解决</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>1.根据实例一和实例三得出，定时器的回调函数被推倒任务队列，当前执行栈清空后，主线程才会读取任务队列中的任务<br>2.根据实例二得出，javascript执行引擎是单线程的，第一个定时器会堵塞第二个定时器<br>3.实例四的方法可用作立即调用，无论设置的延迟时间是多少<br>4.实例五涉及到宏任务与微任务，<a href="https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/" target="_blank" rel="external">Tasks, microtasks, queues and schedules</a><br>5.setTimeout()需要注意的是：其他代码执行时间可能会超过延迟时间<br>6.setInterval()需要注意的是：函数调用时间可能会超过间隔时间，队列中只会有一份未执行的定时器函数</p>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
+
   
 
-    
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#setTimeout-和-setInterval"><span class="toc-number">1.</span> <span class="toc-text">setTimeout 和 setInterval</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#总结："><span class="toc-number">1.1.</span> <span class="toc-text">总结：</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
 
 
           </div>
@@ -185,8 +236,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
