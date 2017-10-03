@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | xiaotong</title>
+  <title>Cookie与Session | xiaotong</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="xiaotong">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="HTTP协议是无状态协议，每当有新的请求发生时，就会有新的响应产生，协议并不保存之前请求和响应的任何信息，也就是说，无法根据之前的状态进行本次的请求处理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cookie与Session">
+<meta property="og:url" content="http://yoursite.com/archives/2017/10/03/cookie与session/index.html">
 <meta property="og:site_name" content="xiaotong">
+<meta property="og:description" content="HTTP协议是无状态协议，每当有新的请求发生时，就会有新的响应产生，协议并不保存之前请求和响应的任何信息，也就是说，无法根据之前的状态进行本次的请求处理。">
+<meta property="og:image" content="http://static.coolcto.com/dacdb15c-0835-4511-8600-8971ecd1e54d/810b0d7e-ed02-4ce0-8723-975b340be3e6-session-cookie.png">
+<meta property="og:updated_time" content="2017-10-03T03:53:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xiaotong">
+<meta name="twitter:title" content="Cookie与Session">
+<meta name="twitter:description" content="HTTP协议是无状态协议，每当有新的请求发生时，就会有新的响应产生，协议并不保存之前请求和响应的任何信息，也就是说，无法根据之前的状态进行本次的请求处理。">
+<meta name="twitter:image" content="http://static.coolcto.com/dacdb15c-0835-4511-8600-8971ecd1e54d/810b0d7e-ed02-4ce0-8723-975b340be3e6-session-cookie.png">
   
     <link rel="alternative" href="/atom.xml" title="xiaotong" type="application/atom+xml">
   
@@ -123,103 +129,99 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-cookie与session" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Cookie与Session
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/2017/10/03/cookie与session/index.html" class="archive-article-date">
+
+        
+        <a href="/archives/2017/10/03/cookie与session/index.html" class="archive-article-date">
   	<time datetime="2017-10-03T01:00:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-03</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/2017/10/03/cookie与session/index.html">Cookie与Session</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>HTTP协议是无状态协议，每当有新的请求发生时，就会有新的响应产生，协议并不保存之前请求和响应的任何信息，也就是说，无法根据之前的状态进行本次的请求处理。<br><a id="more"></a><br>好处是可以减少服务器的CPU及内存资源的消耗，应用起来相对较容易。但是，随着业务的不断增长，需求不仅仅是浏览一下静态页面了，而是需要保持状态进行后续操作（图解HTTP）。所以，用于保持HTTP状态的两种技术就诞生了-Cookie与Session。</p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>Cookie是被设计在客户端保存数据，客户端给服务器发送请求，服务器发送的响应报文中有一个叫做Set-Cookie的首部字段，通知客户端保存Cookie，当下次客户端再次给该服务器发送请求时，客户端会在请求中携带Cookie。</p>
+<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>Session是在服务器端保存信息的，客户端给服务器发送请求时，服务器会为这个客户端建立一个Session，并为其分配一个sessionID，随后，服务器将此sessionID放到Cookie中并返回给客户端，客户端其实保存的事sessionID，随后的每次请求中都会携带sessionID信息，服务器根据sessionID找到对应的Session区分不同用户。</p>
+<p>将Cookie和Session结合起来使用实现状态的保存：<br><img src="http://static.coolcto.com/dacdb15c-0835-4511-8600-8971ecd1e54d/810b0d7e-ed02-4ce0-8723-975b340be3e6-session-cookie.png" alt="请求过程图"></p>
+<h2 id="Cookie与Session的区别："><a href="#Cookie与Session的区别：" class="headerlink" title="Cookie与Session的区别："></a>Cookie与Session的区别：</h2><p>1.Cookie是保存在客户端的，Session是保存在服务器端的。<br>2.Cookie可以被随意修改，Session不能修改。<br>3.Session数量较多时会影响服务器性能，单个Cookie大小不能超过4k，一个域最多20个Cookie。<br>4.Session的运行依赖于sessionID，如果Cookie被禁用了，Session也会失效。</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/2017/09/27/深拷贝与浅拷贝/index.html" class="archive-article-date">
-  	<time datetime="2017-09-27T02:23:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/archives/2017/09/27/深拷贝与浅拷贝/index.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">深拷贝与浅拷贝</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/2017/09/27/深拷贝与浅拷贝/index.html">深拷贝与浅拷贝</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie"><span class="toc-number">1.</span> <span class="toc-text">Cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Session"><span class="toc-number">2.</span> <span class="toc-text">Session</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie与Session的区别："><span class="toc-number">3.</span> <span class="toc-text">Cookie与Session的区别：</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/2017/09/02/javascript踩坑/index.html" class="archive-article-date">
-  	<time datetime="2017-09-02T10:02:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-02</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/2017/09/02/javascript踩坑/index.html">踩过的javascript坑</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -239,8 +241,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
